@@ -1,7 +1,7 @@
 package com.currencycloud.client;
 
-import co.freeside.betamax.Betamax;
-import co.freeside.betamax.MatchRule;
+import co.freeside.betamax.MatchRules;
+import co.freeside.betamax.junit.Betamax;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -11,7 +11,7 @@ import static org.hamcrest.junit.MatcherAssert.assertThat;
 public class AuthenticationTest extends BetamaxTestSupport {
 
     @Test
-    @Betamax(tape = "happens_lazily", match = {MatchRule.method, MatchRule.uri, MatchRule.body, MatchRule.headers})
+    @Betamax(tape = "happens_lazily", match = {MatchRules.method, MatchRules.uri, MatchRules.body, MatchRules.headers})
     public void testHappensLazily() throws Exception {
         CurrencyCloudClient client = prepareTestClient("rjnienaber@gmail.com", "ef0fd50fca1fb14c1fab3a8436b9ecb65f02f129fd87eafa45ded8ae257528f0", null);
 
@@ -20,7 +20,7 @@ public class AuthenticationTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_use_just_a_token", match = {MatchRule.method, MatchRule.uri, MatchRule.body})
+    @Betamax(tape = "can_use_just_a_token", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
     public void testCanUseJustAToken() throws Exception {
         CurrencyCloudClient client = prepareTestClient(null, null, "7fbba909f66ee6721b2e20a5fa1ccae7");
 
@@ -28,7 +28,7 @@ public class AuthenticationTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can be closed", match = {MatchRule.method, MatchRule.uri, MatchRule.body})
+    @Betamax(tape = "can be closed", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
     public void testCanBeClosed() throws Exception {
         CurrencyCloudClient client = prepareTestClient(
                 "rjnienaber@gmail.com",
@@ -41,7 +41,7 @@ public class AuthenticationTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "handles session timeout error", match = {MatchRule.method, MatchRule.uri, MatchRule.body, MatchRule.headers})
+    @Betamax(tape = "handles session timeout error", match = {MatchRules.method, MatchRules.uri, MatchRules.body, MatchRules.headers})
     public void testHandlesSessionTimeoutError() throws Exception {
         CurrencyCloudClient client = prepareTestClient(
                 "rjnienaber@gmail.com",

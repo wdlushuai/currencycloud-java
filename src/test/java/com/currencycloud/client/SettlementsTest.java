@@ -1,7 +1,7 @@
 package com.currencycloud.client;
 
-import co.freeside.betamax.Betamax;
-import co.freeside.betamax.MatchRule;
+import co.freeside.betamax.MatchRules;
+import co.freeside.betamax.junit.Betamax;
 import com.currencycloud.client.model.Conversion;
 import com.currencycloud.client.model.Settlement;
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class SettlementsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_add_conversion", match = {MatchRule.method, MatchRule.uri, MatchRule.body})
+    @Betamax(tape = "can_add_conversion", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
     public void testCanAddConversion() throws Exception {
         Conversion conversion = Conversion.create("GBP", "USD", "buy");
         conversion = client.createConversion(conversion, new BigDecimal(1000), "mortgage payment", true);
@@ -76,7 +76,7 @@ public class SettlementsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_remove_conversion", match = {MatchRule.method, MatchRule.uri, MatchRule.body})
+    @Betamax(tape = "can_remove_conversion", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
     public void testCanRemoveConversion() throws Exception {
         Settlement settlement = client.retrieveSettlement("63eeef54-3531-4e65-827a-7d0f37503fcc");
         Settlement deletedSettlement = client.removeConversion(settlement.getId(), "24d2ee7f-c7a3-4181-979e-9c58dbace992");
@@ -88,7 +88,7 @@ public class SettlementsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_release", match = {MatchRule.method, MatchRule.uri, MatchRule.body})
+    @Betamax(tape = "can_release", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
     public void testCanRelease() throws Exception {
         Settlement settlement = client.retrieveSettlement("51c619e0-0256-40ad-afba-ca4114b936f9");
         Settlement releasedSettlement = client.releaseSettlement(settlement.getId());
@@ -99,7 +99,7 @@ public class SettlementsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_unrelease", match = {MatchRule.method, MatchRule.uri, MatchRule.body})
+    @Betamax(tape = "can_unrelease", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
     public void testCanUnrelease() throws Exception {
         Settlement settlement = client.retrieveSettlement("51c619e0-0256-40ad-afba-ca4114b936f9");
         Settlement unreleaseSettlement = client.unreleaseSettlement(settlement.getId());

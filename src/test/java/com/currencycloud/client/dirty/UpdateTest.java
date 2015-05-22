@@ -1,7 +1,7 @@
 package com.currencycloud.client.dirty;
 
-import co.freeside.betamax.Betamax;
-import co.freeside.betamax.MatchRule;
+import co.freeside.betamax.MatchRules;
+import co.freeside.betamax.junit.Betamax;
 import com.currencycloud.client.BetamaxTestSupport;
 import com.currencycloud.client.CurrencyCloudClient;
 import com.currencycloud.client.model.Beneficiaries;
@@ -14,7 +14,7 @@ import static org.hamcrest.junit.MatcherAssert.assertThat;
 public class UpdateTest extends BetamaxTestSupport {
 
     @Test
-    @Betamax(tape = "only_updates_changed_records", match = {MatchRule.method, MatchRule.uri, MatchRule.body})
+    @Betamax(tape = "only_updates_changed_records", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
     public void onlyUpdatesChangedRecords() throws Exception {
         CurrencyCloudClient client = prepareTestClient(null, null, "e5070d4a16c5ffe4ed9fb268a2a716be");
 
@@ -34,7 +34,7 @@ public class UpdateTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "does_nothing_if_nothing_has_changed", match = {MatchRule.method, MatchRule.uri})
+    @Betamax(tape = "does_nothing_if_nothing_has_changed", match = {MatchRules.method, MatchRules.uri})
     public void shouldDoNothingIfNothingHasChanged() throws Exception {
         CurrencyCloudClient client = prepareTestClient(null, null, "e5070d4a16c5ffe4ed9fb268a2a716be");
 
@@ -48,7 +48,7 @@ public class UpdateTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "does_nothing_if_nothing_has_changed_from_collection", match = {MatchRule.method, MatchRule.uri})
+    @Betamax(tape = "does_nothing_if_nothing_has_changed_from_collection", match = {MatchRules.method, MatchRules.uri})
     public void shouldDoNothingIfNothingHasChangedFromCollection() throws Exception {
         CurrencyCloudClient client = prepareTestClient(null, null, "e5070d4a16c5ffe4ed9fb268a2a716be");
 
