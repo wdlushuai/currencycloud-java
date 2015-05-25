@@ -1,6 +1,5 @@
 package com.currencycloud.client;
 
-import co.freeside.betamax.MatchRules;
 import co.freeside.betamax.junit.Betamax;
 import org.junit.Test;
 
@@ -20,7 +19,7 @@ public class AuthenticationTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_use_just_a_token", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_use_just_a_token")
     public void testCanUseJustAToken() throws Exception {
         CurrencyCloudClient client = prepareTestClient(null, null, "7fbba909f66ee6721b2e20a5fa1ccae7");
 
@@ -28,7 +27,7 @@ public class AuthenticationTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can be closed", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can be closed")
     public void testCanBeClosed() throws Exception {
         CurrencyCloudClient client = prepareTestClient(
                 "rjnienaber@gmail.com",

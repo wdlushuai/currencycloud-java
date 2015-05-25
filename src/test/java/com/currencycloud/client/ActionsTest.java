@@ -1,6 +1,5 @@
 package com.currencycloud.client;
 
-import co.freeside.betamax.MatchRules;
 import co.freeside.betamax.junit.Betamax;
 import com.currencycloud.client.model.*;
 import org.hamcrest.CoreMatchers;
@@ -31,7 +30,7 @@ public class ActionsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_create", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_create")
     public void testCanCreate() throws Exception {
         Beneficiary beneficiary = Beneficiary.create("Test User", "GB", "GBP", "Test User");
         beneficiary.setAccountNumber("12345678");
@@ -49,7 +48,7 @@ public class ActionsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_retrieve", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_retrieve")
     public void testCanRetrieve() throws Exception {
         Beneficiary beneficiary = client.retrieveBeneficiary("081596c9-02de-483e-9f2a-4cf55dcdf98c");
 
@@ -61,7 +60,7 @@ public class ActionsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_first", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_first")
     public void testCanFirst() throws Exception {
         Beneficiary beneficiary = client.firstBeneficiary(Beneficiary.create("Test User", null, null, null));
 
@@ -73,7 +72,7 @@ public class ActionsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_find", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_find")
     public void testCanFind() throws Exception {
         Beneficiaries beneficiariesData = client.findBeneficiaries(null, null);
 
@@ -93,7 +92,7 @@ public class ActionsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_update", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_update")
     public void testCanUpdate() throws Exception {
         Beneficiary beneficiary = Beneficiary.createForUpdate("081596c9-02de-483e-9f2a-4cf55dcdf98c");
         beneficiary.setBankAccountHolderName("Test User 2");
@@ -104,7 +103,7 @@ public class ActionsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_delete", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_delete")
     public void testCanDelete() throws Exception {
         Beneficiary beneficiary = client.deleteBeneficiary("081596c9-02de-483e-9f2a-4cf55dcdf98c");
 
@@ -116,7 +115,7 @@ public class ActionsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_current", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_current")
     public void testCanCurrent() throws Exception {
         Account account = client.currentAccount();
 
@@ -127,7 +126,7 @@ public class ActionsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_validate_beneficiaries", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_validate_beneficiaries")
     public void testCanValidateBeneficiaries() throws Exception {
         client.setAuthToken("4df5b3e5882a412f148dcd08fa4e5b73");
         List<String> paymentTypes = Collections.singletonList("regular");
@@ -150,7 +149,7 @@ public class ActionsTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_use_currency_to_retrieve_balance", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_use_currency_to_retrieve_balance")
     public void testCanUseCurrencyToRetrieveBalance() throws Exception {
         Balance balance = client.retrieveBalance("GBP");
 

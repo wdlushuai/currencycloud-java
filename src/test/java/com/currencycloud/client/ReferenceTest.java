@@ -1,6 +1,5 @@
 package com.currencycloud.client;
 
-import co.freeside.betamax.MatchRules;
 import co.freeside.betamax.junit.Betamax;
 import com.currencycloud.client.model.ConversionDates;
 import com.currencycloud.client.model.Currency;
@@ -25,7 +24,7 @@ public class ReferenceTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_retrieve_beneficiary_required_details", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_retrieve_beneficiary_required_details")
     public void testCanRetrieveBeneficiaryRequiredDetails() throws Exception {
         List<Map<String, String>> details = client.beneficiaryRequiredDetails("GBP", "GB", "GB");
         assertThat(details, not(empty()));
@@ -44,7 +43,7 @@ public class ReferenceTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_retrieve_conversion_dates", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_retrieve_conversion_dates")
     public void testCanRetrieveConversionDates() throws Exception {
         ConversionDates dates = client.conversionDates("GBPUSD", null);
 
@@ -57,7 +56,7 @@ public class ReferenceTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_retrieve_currencies", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_retrieve_currencies")
     public void testCanRetrieveCurrencies() throws Exception {
         List<Currency> currencies = client.currencies();
         assertThat(currencies, not(empty()));
@@ -69,7 +68,7 @@ public class ReferenceTest extends BetamaxTestSupport {
     }
 
     @Test
-    @Betamax(tape = "can_retrieve_settlement_accounts", match = {MatchRules.method, MatchRules.uri, MatchRules.body})
+    @Betamax(tape = "can_retrieve_settlement_accounts")
     public void testCanRetrieveSettlementAccounts() throws Exception {
         List<SettlementAccount> settlementAccounts = client.settlementAccounts("GBP");
         assertThat(settlementAccounts, not(empty()));
