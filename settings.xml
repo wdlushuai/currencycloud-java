@@ -10,4 +10,42 @@
             <password>${env.CI_DEPLOY_PASSWORD}</password>
         </server>
     </servers>
+
+<username>admin</username> 
+<password>password</password>
+
+<repositories>
+    <repository>
+        <id>central</id>
+        <url>http://10.1.130.250:8081/artifactory/libs-release-local</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>snapshots</id>
+        <url>http://10.1.130.250:8081/artifactory/libs-snapshot-local</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+    </repository>
+</repositories>
+
+<pluginRepositories>
+    <pluginRepository>
+        <id>central</id>
+        <url>http://10.1.130.250:8081/artifactory/plugins-release</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+        <id>snapshots</id>
+        <url>http://10.1.130.250:8081/artifactory/plugins-snapshot</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+    </pluginRepository>
+</pluginRepositories>
+
 </settings>
