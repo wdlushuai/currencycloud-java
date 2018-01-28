@@ -4,7 +4,7 @@
 
     <groupId>com.currencycloud.currencycloud-java</groupId>
     <artifactId>currencycloud-java</artifactId>
-    <version>0.7.2-SNAPSHOT</version>
+    <version>0.7.7-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Currency Cloud</name>
@@ -323,7 +323,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <keyname>Richard Nienaber &lt;richard.nienaber@currencycloud.com&gt;</keyname>
+                            <keyname>Derik Vercueil &lt;derik.vercueil@currencycloud.com&gt;</keyname>
                         </configuration>
                     </plugin>
 
@@ -332,5 +332,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>

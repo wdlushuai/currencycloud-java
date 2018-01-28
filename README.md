@@ -1,11 +1,11 @@
 [![Build Status](https://travis-ci.org/CurrencyCloud/currencycloud-java.png?branch=master)](https://travis-ci.org/CurrencyCloud/currencycloud-java)
 
-# Currency Cloud API v2 Java client
+# Currencycloud API v2 Java client
 
-## Version: 0.7.1
+## Version: 0.7.6
 
-This is the official Java SDK for the Currency Cloud API. Additional documentation 
-for each API endpoint can be found at [connect.currencycloud.com][docs]. 
+This is the official Java SDK for the Currencycloud API. Additional documentation 
+for each API endpoint can be found at [developer.currencycloud.com][docs]. 
 
 If you have any queries or you require support, please contact our sales team at sales@currencycloud.com.  Please quote your login id in any correspondence as this makes
 it far simpler for us to locate your account and give you the support you need.
@@ -23,34 +23,34 @@ it will be far easier to simply make use of Maven to build the project and do th
 
 CurrencyCloud-Java requires at least a Java version 7 compatible JDK.
 
-### 3. A valid sandbox login id and api key on the CurrencyCloud sandbox API environment.
+### 3. A valid sandbox login id and api key on the Currencycloud sandbox API environment.
 
-You can register for demo API key at [connect.currencycloud.com][connect]. 
+You can register for demo API key at [developer.currencycloud.com][developer]. 
 
 While we expose certain routes on the sandbox API without the requirement for authentication, we rate-limit these requests aggressively to prevent abuse of the sandbox.  Rate-limiting on authenticated requests
  is far more lenient.
 
-## Installing the Currency Cloud SDK
+## Installing the Currencycloud SDK
 
 ### 1. Using Maven
 
-To use the Currency Cloud SDK in a Maven project, add the following dependency to the project's `pom.xml`:
+To use the Currencycloud SDK in a Maven project, add the following dependency to the project's `pom.xml`:
 
 ```xml
 <dependency>
     <groupId>com.currencycloud.currencycloud-java</groupId>
     <artifactId>currencycloud-java</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.7.6</version>
 </dependency>
 ```
 
 ### 2. Manually downloading the jars
 
-Download the Currency Cloud SDK jar:
+Download the Currencycloud SDK jar:
 
 1. Open https://oss.sonatype.org/#nexus-search;quick~currencycloud-java
 2. Navigate to the version of currencycloud-java that you wish to use
-3. Download the currencycloud-java-0.7-SNAPSHOT.jar 
+3. Download the currencycloud-java-0.7.6.jar 
 
 Get the list of all dependencies:
 
@@ -58,19 +58,21 @@ Get the list of all dependencies:
 mvn dependency:list -DincludeScope=runtime
 ```
 
-As of version 0.7, this returns the following list:
+As of version 0.7.6, this returns the following list:
 
 ```
-ch.qos.logback:logback-core:jar:1.1.2
-com.fasterxml.jackson.core:jackson-core:jar:2.5.0
-com.github.mmazi:rescu:jar:1.8.1-SNAPSHOT
-com.google.code.findbugs:jsr305:jar:3.0.0
-com.fasterxml.jackson.core:jackson-databind:jar:2.5.0
-ch.qos.logback:logback-classic:jar:1.1.2
-com.fasterxml.jackson.core:jackson-annotations:jar:2.5.0
-org.slf4j:slf4j-api:jar:1.7.12
-com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.5.0
-javax.ws.rs:jsr311-api:jar:1.1.1
+com.fasterxml.jackson.core:jackson-core:jar:2.5.0:compile
+com.google.code.findbugs:jsr305:jar:3.0.0:compile
+com.fasterxml.jackson.core:jackson-databind:jar:2.5.0:compile
+cglib:cglib:jar:3.1:compile
+com.fasterxml.jackson.core:jackson-annotations:jar:2.5.0:compile
+ch.qos.logback:logback-core:jar:1.1.3:compile
+org.ow2.asm:asm:jar:4.2:compile
+com.github.mmazi:rescu:jar:1.8.1:compile
+org.slf4j:slf4j-api:jar:1.7.12:compile
+com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.5.0:compile
+javax.ws.rs:jsr311-api:jar:1.1.1:compile
+ch.qos.logback:logback-classic:jar:1.1.3:compile
 ```
 
 You will need to find each of these dependencies and download it from the [Sonatype Nexus][sonatype] as described above.
@@ -193,7 +195,7 @@ The final section contains valuable information:
 - Message: A human readable message that explains the error
 - Params: A map that contains dynamic parts of the error message for building custom error messages
 
-When troubleshooting API calls with Currency Cloud support, including the full
+When troubleshooting API calls with Currencycloud support, including the full
 error in any correspondence can be very helpful.
 
 ## Logging
@@ -215,7 +217,7 @@ We recommend using [Logback][logback]:
 
 # Development
 
-## Building Currency Cloud SDK from sources
+## Building Currencycloud SDK from sources
 
 Building the project from sources is not necessary to use it.
 
@@ -250,7 +252,7 @@ to be backwards compatible.
 
 # Copyright
 
-Copyright (c) 2015 Currency Cloud. See [LICENSE][license] for details.
+Copyright (c) 2017 Currencycloud. See [LICENSE][license] for details.
 
 
 
@@ -261,7 +263,7 @@ Copyright (c) 2015 Currency Cloud. See [LICENSE][license] for details.
 [rescu]:     https://github.com/mmazi/rescu
 [jackson]:   https://github.com/FasterXML/jackson
 [docs]:      https://connect.currencycloud.com/documentation/getting-started/introduction
-[connect]:   https://connect.currencycloud.com/
+[developer]: https://developer.currencycloud.com
 [travis]:    https://travis-ci.org/CurrencyCloud/currencycloud-java
 [semver]:    http://semver.org/
 [sonatype]:  https://oss.sonatype.org/

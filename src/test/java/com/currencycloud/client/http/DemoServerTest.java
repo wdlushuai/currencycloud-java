@@ -141,7 +141,7 @@ public class DemoServerTest {
 
     @Test
     public void testCreateUpdateAccount() throws Exception {
-        Account account = currencyCloud.createAccount(Account.create("New Account xyz", "individual"));
+        Account account = currencyCloud.createAccount(Account.create("New Account xyz", "individual" , " Test Street", "London", "GB"));
 
         assertThat(account.getYourReference(), is(nullValue()));
         account.setYourReference("a");
@@ -189,8 +189,12 @@ public class DemoServerTest {
         String accountId = currencyCloud.currentAccount().getId();
         log.debug("accountId = {}", accountId);
 
+        String Contact_First_Name = randomString();
+        String Contact_Last_Name = randomString();
+        String Contact_email_id = randomString() + "+jdjr@example.com";
+
         Contact contact = currencyCloud.createContact(
-                Contact.create(accountId, "John Jr.", "Doe", randomString() + "+jdjr@example.com", "555 555 555 555")
+                Contact.create(accountId, Contact_First_Name, Contact_Last_Name, Contact_email_id, "555 555 555 555")
         );
 
         log.debug("contact = {}", contact);
@@ -208,7 +212,7 @@ public class DemoServerTest {
         assertFound(contacts, contact);
 
         contacts = currencyCloud.findContacts(
-                Contact.create(accountId, null, null, null, null),
+                Contact.create(accountId, Contact_First_Name, Contact_Last_Name, Contact_email_id, null),
                 Pagination.builder().pages(1, 10).build()
         ).getContacts();
         assertFound(contacts, contact);
@@ -219,7 +223,7 @@ public class DemoServerTest {
         // Today + 7 days:
         Date date = getDate(dateFormat.format(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)));
         Conversion conversion = Conversion.create(
-                "EUR", "GBP", "buy", date, null, null, null, null
+                "EUR", "GBP", "buy", date, null, null, null, null, null
         );
         conversion = currencyCloud.createConversion(conversion, new BigDecimal("10000.00"), "Invoice Payment", true);
 
@@ -235,7 +239,7 @@ public class DemoServerTest {
 
         List<Conversion> conversions = currencyCloud.findConversions(
                 null, Collections.singleton(conversion.getId()),
-                null, null, null, null, null, null, null, null, null, null, null, null
+                null, null, null, null, null, null, null, null, null, null, null, null, null
         ).getConversions();
 
         assertFound(conversions, conversion);
@@ -244,7 +248,7 @@ public class DemoServerTest {
                 null, Arrays.asList(conversion.getId(), "invalid-id"),
                 null, getDate("2100-01-01"),
                 getDate("2015-01-01"), null, null, null, null, null,
-                null, null, null, new BigDecimal("10000000.00")
+                null, null, null, new BigDecimal("10000000.00"), null
         ).getConversions();
 
         assertFound(conversions, conversion);
@@ -254,7 +258,7 @@ public class DemoServerTest {
     public void testFindConversions() throws Exception {
         currencyCloud.findConversions(
                 Conversion.createExample(
-                        "ref", "awaiting_funds", "funds_sent", "GBP", "USD", "EURMXN"
+                        "ref", "awaiting_funds", "funds_sent", "GBP", "USD", "EURMXN", null
                 ),
                 Collections.<String>emptyList(),
                 new Date(),
@@ -268,7 +272,8 @@ public class DemoServerTest {
                 new BigDecimal("1.00"),
                 new BigDecimal("100000.00"),
                 new BigDecimal("1.00"),
-                new BigDecimal("100000.00")
+                new BigDecimal("100000.00"),
+                null
         );
     }
 
@@ -287,9 +292,22 @@ public class DemoServerTest {
         BigDecimal amount = randomAmount();
         Payment payment = Payment.create(
                 "EUR", beneficiary.getId(), amount, "Invoice Payment", "Invoice 1234",
-                null, "regular", conversion.getId()
+                null, "regular", conversion.getId(), null
         );
-        payment = currencyCloud.createPayment(payment, null);
+
+        List<String> payerAddress = new ArrayList<String>();
+        payerAddress.add("Payer Address Line 1");
+        payerAddress.add("Payer Address Line 2");
+        Payer payer = Payer.create(
+                "individual",
+                "Test Payer Company",
+                "Test Payer First Name",
+                "Test Payer Last Name",
+                payerAddress,
+                "Paris",
+                "FR",
+                new Date());
+        payment = currencyCloud.createPayment(payment, payer);
         log.debug("Created payment = {}", payment);
 
         payment = currencyCloud.retrievePayment(payment.getId());
@@ -300,7 +318,7 @@ public class DemoServerTest {
         List<Payment> payments = currencyCloud.findPayments(
                 payment,
                 amount.subtract(BigDecimal.ONE), payment.getAmount().add(BigDecimal.ONE), null,
-                null, null, null, null, null, from, null, null
+                null, null, null, null, null, from, null, null, null
         ).getPayments();
 
         assertFound(payments, payment);
@@ -308,12 +326,12 @@ public class DemoServerTest {
         payments = currencyCloud.findPayments(
                 null,
                 amount.subtract(BigDecimal.ONE), payment.getAmount().add(BigDecimal.ONE), null,
-                null, null, null, from, null, null, null, null
+                null, null, null, from, null, null, null, null, null
         ).getPayments();
 
         assertFound(payments, payment);
 
-        Payer payer = currencyCloud.retrievePayer(payment.getPayerId());
+        payer = currencyCloud.retrievePayer(payment.getPayerId());
 
         payment.setReason("A changed reason");
         payer.setCity("A different city.");
@@ -321,15 +339,15 @@ public class DemoServerTest {
 
         Payment payment2 = Payment.create(
                 "EUR", beneficiary.getId(), randomAmount(), "Invoice Payment 2", "Invoice 2234",
-                null, "regular", conversion.getId()
+                null, "regular", conversion.getId(), null
         );
-        payment2 = currencyCloud.createPayment(payment2, null);
+        payment2 = currencyCloud.createPayment(payment2, payer);
         log.debug("Created payment2 = {}", payment2);
 
         currencyCloud.deletePayment(payment.getId());
 
         payments = currencyCloud
-                .findPayments(payment, null, null, null, null, null, null, null, null, null, null, null)
+                .findPayments(payment, null, null, null, null, null, null, null, null, null, null, null, null)
                 .getPayments();
 
         assertFound(payments, payment, false);
@@ -340,9 +358,9 @@ public class DemoServerTest {
         currencyCloud.findPayments(
                 Payment.createExample("USD",
                                       SOME_UUID, new BigDecimal("12.44"), "Some reason",
-                                      SOME_UUID, "asdf", "ready_to_send"),
+                                      SOME_UUID, "asdf", "ready_to_send", null),
                 BigDecimal.ONE, new BigDecimal("1000000.00"), new Date(),
-                new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), Pagination.first()
+                new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), Pagination.first(), null
         ).getPayments();
     }
 
@@ -407,7 +425,7 @@ public class DemoServerTest {
                 from, to,
                 Pagination.builder().pages(1, 10).build()
         ).getTransactions();
-        log.debug("transactions = {}", transactions);;
+        log.debug("transactions = {}", transactions);
 
         // todo: we never get any transactions here
 //        assertThat(transactions, hasSize(greaterThan(0)));
