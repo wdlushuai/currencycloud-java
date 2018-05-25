@@ -1046,6 +1046,15 @@ public class CurrencyCloudClient {
         );
     }
 
+    public Payment retrieveSwiftPaymentSubmission(String id) throws CurrencyCloudException {
+        return api.retrieveSwiftPaymentSubmission(
+                authToken,
+                userAgent,
+                id,
+                getOnBehalfOf()
+        );
+    }
+
     ///////////////////////////////////////////////////////////////////
     ///// RATES ///////////////////////////////////////////////////////
 

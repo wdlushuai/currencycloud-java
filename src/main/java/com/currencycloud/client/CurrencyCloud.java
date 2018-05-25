@@ -807,6 +807,16 @@ public interface CurrencyCloud {
             @Nullable @QueryParam("on_behalf_of") String onBehalfOf
     ) throws ResponseException;
 
+    /** Retrieve a Payment Submission*/
+    @GET
+    @Path("payments/{id}/submission")
+    Payment retrieveSwiftPaymentSubmission(
+            @HeaderParam("X-Auth-Token") String authToken,
+            @HeaderParam("User-Agent") String userAgent,
+            @PathParam("id") String id,
+            @Nullable @QueryParam("on_behalf_of") String onBehalfOf
+    ) throws ResponseException;
+
 
     ///////////////////////////////////////////////////////////////////
     ///// RATES API ///////////////////////////////////////////////////
