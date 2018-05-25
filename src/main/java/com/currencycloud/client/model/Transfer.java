@@ -3,16 +3,14 @@ package com.currencycloud.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import net.minidev.json.JSONObject;
 
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Transfer implements Entity {
-
     private String id;
     private String shortReference;
     private String sourceAccountId;
@@ -26,23 +24,15 @@ public class Transfer implements Entity {
     private String creatorAccountId;
     private String creatorContactId;
     private String reason;
-    private BigDecimal amountFrom;
-    private BigDecimal amountTo;
-    private Date createdAtFrom;
-    private Date createdAtTo;
-    private Date updatedAtFrom;
-    private Date updatedAtTo;
-    private Date completedAtFrom;
-    private Date completedAtTo;
 
-    protected Transfer() { }
+    protected Transfer() {
+    }
 
-    private Transfer(String sourceAccountId,
-                     String destinationAccountId,
-                     String currency,
-                     BigDecimal amount,
-                     @Nullable String reason
-    ) {
+    public Transfer(String sourceAccountId,
+                    String destinationAccountId,
+                    String currency,
+                    BigDecimal amount,
+                    @Nullable String reason) {
         this.sourceAccountId = sourceAccountId;
         this.destinationAccountId = destinationAccountId;
         this.currency = currency;
@@ -50,37 +40,32 @@ public class Transfer implements Entity {
         this.reason = reason;
     }
 
-    public static Transfer create() {
-        return new Transfer();
-    }
-
-    /**
-     * Creates a transfer as expected by the
-     * {@link com.currencycloud.client.CurrencyCloudClient#createTransfer(Transfer)} method,
-     * using only required parameters.
-     */
-
-    public static Transfer create(String sourceAccountId,
-                                  String destinationAccountId,
-                                  String currency,
-                                  BigDecimal amount) {
-        return new Transfer(sourceAccountId, destinationAccountId, currency, amount, null);
-
-    }
-
-    /**
-     * Creates a transfer as expected by the
-     * {@link com.currencycloud.client.CurrencyCloudClient#createTransfer(Transfer)} method,
-     * using all parameters.
-     */
-
     public static Transfer create(String sourceAccountId,
                                   String destinationAccountId,
                                   String currency,
                                   BigDecimal amount,
                                   @Nullable String reason) {
         return new Transfer(sourceAccountId, destinationAccountId, currency, amount, reason);
+    }
 
+
+    @Override
+    public String toString() {
+        return "Transfer{" +
+                "id='" + id + '\'' +
+                ", shortReference='" + shortReference + '\'' +
+                ", sourceAccountId='" + sourceAccountId + '\'' +
+                ", destinationAccountId='" + destinationAccountId + '\'' +
+                ", currency='" + currency + '\'' +
+                ", amount=" + amount +
+                ", status='" + status + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", completedAt=" + completedAt +
+                ", creatorAccountId='" + creatorAccountId + '\'' +
+                ", creatorContactId='" + creatorContactId + '\'' +
+                ", reason='" + reason + '\'' +
+                '}';
     }
 
     @Override
@@ -186,88 +171,5 @@ public class Transfer implements Entity {
 
     public void setReason(String reason) {
         this.reason = reason;
-    }
-
-    public BigDecimal getAmountFrom() {
-        return amountFrom;
-    }
-
-    public void setAmountFrom(BigDecimal amountFrom) {
-        this.amountFrom = amountFrom;
-    }
-
-    public BigDecimal getAmountTo() {
-        return amountTo;
-    }
-
-    public void setAmountTo(BigDecimal amountTo) {
-        this.amountTo = amountTo;
-    }
-
-    public Date getCreatedAtFrom() {
-        return createdAtFrom;
-    }
-
-    public void setCreatedAtFrom(Date createdAtFrom) {
-        this.createdAtFrom = createdAtFrom;
-    }
-
-    public Date getCreatedAtTo() {
-        return createdAtTo;
-    }
-
-    public void setCreatedAtTo(Date createdAtTo) {
-        this.createdAtTo = createdAtTo;
-    }
-
-    public Date getUpdatedAtFrom() {
-        return updatedAtFrom;
-    }
-
-    public void setUpdatedAtFrom(Date updatedAtFrom) {
-        this.updatedAtFrom = updatedAtFrom;
-    }
-
-    public Date getUpdatedAtTo() {
-        return updatedAtTo;
-    }
-
-    public void setUpdatedAtTo(Date updatedAtTo) {
-        this.updatedAtTo = updatedAtTo;
-    }
-
-    public Date getCompletedAtFrom() {
-        return completedAtFrom;
-    }
-
-    public void setCompletedAtFrom(Date completedAtFrom) {
-        this.completedAtFrom = completedAtFrom;
-    }
-
-    public Date getCompletedAtTo() {
-        return completedAtTo;
-    }
-
-    public void setCompletedAtTo(Date completedAtTo) {
-        this.completedAtTo = completedAtTo;
-    }
-
-    @Override
-    public String toString() {
-        return new JSONObject()
-                .appendField("id", id)
-                .appendField("shortReference", shortReference)
-                .appendField("sourceAccountId", sourceAccountId)
-                .appendField("destinationAccountId", destinationAccountId)
-                .appendField("currency", currency)
-                .appendField("amount", amount)
-                .appendField("status", status)
-                .appendField("createdAt", createdAt)
-                .appendField("updatedAt", updatedAt)
-                .appendField("completedAt", completedAt)
-                .appendField("creatorAccountId", creatorAccountId)
-                .appendField("creatorContactId", creatorContactId)
-                .appendField("reason", reason)
-                .toString();
     }
 }
