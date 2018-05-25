@@ -3,11 +3,12 @@ package com.currencycloud.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import net.minidev.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Rate {
 
@@ -34,6 +35,9 @@ public class Rate {
 
     @Override
     public String toString() {
-        return String.format("Rate{bid=%s, offer=%s}", bid, offer);
+        return new JSONObject()
+                .appendField("bid", bid)
+                .appendField("offer", offer)
+                .toString();
     }
 }

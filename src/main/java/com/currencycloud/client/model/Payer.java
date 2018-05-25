@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import net.minidev.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(converter = DirtyWatcherDeserializer.Payer.class)
 public class Payer implements Entity {
@@ -58,6 +59,10 @@ public class Payer implements Entity {
         this.dateOfBirth = dateOfBirth;
         this.identificationType = identificationType;
         this.identificationValue = identificationValue;
+    }
+
+    public static Payer create() {
+        return new Payer();
     }
 
     public static Payer create(String entityType,
@@ -124,12 +129,12 @@ public class Payer implements Entity {
         );
     }
 
-    public static Payer create() {
-        return new Payer();
-    }
-
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getLegalEntityType() {
@@ -240,9 +245,28 @@ public class Payer implements Entity {
         return updatedAt;
     }
 
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public String toString() {
-        return String.format("Payer{id='%s', legalEntityType='%s', companyName='%s', firstName='%s', lastName='%s', address=%s, city='%s', stateOrProvince='%s', country='%s', identificationType='%s', identificationValue='%s', postcode='%s', dateOfBirth=%s, createdAt=%s, updatedAt=%s}",
-                id, legalEntityType, companyName, firstName, lastName, address, city, stateOrProvince, country, identificationType, identificationValue, postcode, dateOfBirth, createdAt, updatedAt);
-    }
+        return new JSONObject()
+                .appendField("id", id)
+                .appendField("legalEntityType", legalEntityType)
+                .appendField("companyName", companyName)
+                .appendField("firstName", firstName)
+                .appendField("lastName", lastName)
+                .appendField("address", address)
+                .appendField("city", city)
+                .appendField("stateOrProvince", stateOrProvince)
+                .appendField("country", country)
+                .appendField("identificationType", identificationType)
+                .appendField("identificationValue", identificationValue)
+                .appendField("postcode", postcode)
+                .appendField("dateOfBirth", dateOfBirth)
+                .appendField("createdAt", createdAt)
+                .appendField("updatedAt", updatedAt)
+                .toString();
+        }
 }

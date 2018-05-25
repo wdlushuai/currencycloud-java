@@ -3,6 +3,7 @@ package com.currencycloud.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import net.minidev.json.JSONObject;
 
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Conversion implements Entity {
 
@@ -43,9 +44,50 @@ public class Conversion implements Entity {
     private Date createdAt;
     private Date updatedAt;
     private String uniqueRequestId;
+    private List<String> conversionIds = new ArrayList<>();
+    private Date createdAtFrom;
+    private Date createdAtTo;
+    private Date updatedAtFrom;
+    private Date updatedAtTo;
+    private Date conversionDateFrom;
+    private Date conversionDateTo;
+    private BigDecimal partnerBuyAmountFrom;
+    private BigDecimal partnerBuyAmountTo;
+    private BigDecimal partnerSellAmountFrom;
+    private BigDecimal partnerSellAmountTo;
+    private BigDecimal buyAmountFrom;
+    private BigDecimal buyAmountTo;
+    private BigDecimal sellAmountFrom;
+    private BigDecimal sellAmountTo;
+    private String scope;
+    private Date settlementDateFrom;
+    private Date settlementDateTo;
+    private String bulkUploadId;
+    private BigDecimal unallocatedFunds;
+    private String reason;
+    private BigDecimal amount;
+    private Boolean termAgreement;
 
     protected Conversion() { }
 
+    private Conversion(
+            String buyCurrency,
+            String sellCurrency,
+            String fixedSide,
+            BigDecimal amount,
+            Boolean termAgreement
+    ) {
+        this.buyCurrency = buyCurrency;
+        this.sellCurrency = sellCurrency;
+        this.fixedSide = fixedSide;
+        this.amount = amount;
+        this.termAgreement = termAgreement;
+    }
+
+    /**
+     * @deprecated as of 1.2.3; use {@link #Conversion(String, String, String, BigDecimal, Boolean)} instead
+     */
+    @Deprecated
     private Conversion (
             String buyCurrency,
             String sellCurrency,
@@ -68,6 +110,10 @@ public class Conversion implements Entity {
         this.uniqueRequestId = uniqueRequestId;
     }
 
+    /**
+     * @deprecated as of 1.2.3; use {@link #Conversion(String, String, String, BigDecimal, Boolean)} instead
+     */
+    @Deprecated
     private Conversion(
             @Nullable String shortReference,
             @Nullable String status,
@@ -91,11 +137,21 @@ public class Conversion implements Entity {
     }
 
     /** Creates a Conversion with only the required properties for creation. */
+    public static Conversion create(String buyCurrency, String sellCurrency, String fixedSide, BigDecimal amount, Boolean termAgreement) {
+        return new Conversion(buyCurrency, sellCurrency, fixedSide, amount, termAgreement);
+    }
+
+    /**
+     * @deprecated as of 1.2.3; use {@link #create(String, String, String, BigDecimal, Boolean)} instead
+     */
     public static Conversion create(String buyCurrency, String sellCurrency, String fixedSide) {
         return new Conversion(buyCurrency, sellCurrency, fixedSide, null, null, null, null, null, null);
     }
 
-    /** Creates a Conversion with the required and the optional properties for creation. */
+    /**
+     * @deprecated as of 1.2.3; use {@link #create(String, String, String, BigDecimal, Boolean)} instead or
+     * {@link #create()} calling the appropiate setter methods
+     */
     public static Conversion create(
             String buyCurrency,
             String sellCurrency,
@@ -120,8 +176,10 @@ public class Conversion implements Entity {
         );
     }
 
-    /** Creates the Conversion with the properties that can be passed to the
-     * {@link com.currencycloud.client.CurrencyCloudClient#findConversions} method. */
+    /**
+     * @deprecated as of 1.2.3; use {@link #create()} calling the appropiate setter methods and pass the resulting
+     * object to CurrencyCloudClient.findConversions(Conversion, Pagination) instead
+     */
     public static Conversion createExample(
             @Nullable String shortReference,
             @Nullable String status,
@@ -137,6 +195,10 @@ public class Conversion implements Entity {
     @Override
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAccountId() {
@@ -343,8 +405,16 @@ public class Conversion implements Entity {
         return createdAt;
     }
 
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Date getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getUniqueRequestId() {
@@ -355,9 +425,223 @@ public class Conversion implements Entity {
         this.uniqueRequestId = uniqueRequestId;
     }
 
+    public List<String> getConversionIds() {
+        return conversionIds;
+    }
+
+    public void setConversionIds(List<String> conversionIds) {
+        this.conversionIds = conversionIds;
+    }
+
+    public Date getCreatedAtFrom() {
+        return createdAtFrom;
+    }
+
+    public void setCreatedAtFrom(Date createdAtFrom) {
+        this.createdAtFrom = createdAtFrom;
+    }
+
+    public Date getCreatedAtTo() {
+        return createdAtTo;
+    }
+
+    public void setCreatedAtTo(Date createdAtTo) {
+        this.createdAtTo = createdAtTo;
+    }
+
+    public Date getUpdatedAtFrom() {
+        return updatedAtFrom;
+    }
+
+    public void setUpdatedAtFrom(Date updatedAtFrom) {
+        this.updatedAtFrom = updatedAtFrom;
+    }
+
+    public Date getUpdatedAtTo() {
+        return updatedAtTo;
+    }
+
+    public void setUpdatedAtTo(Date updatedAtTo) {
+        this.updatedAtTo = updatedAtTo;
+    }
+
+    public Date getConversionDateFrom() {
+        return conversionDateFrom;
+    }
+
+    public void setConversionDateFrom(Date conversionDateFrom) {
+        this.conversionDateFrom = conversionDateFrom;
+    }
+
+    public Date getConversionDateTo() {
+        return conversionDateTo;
+    }
+
+    public void setConversionDateTo(Date conversionDateTo) {
+        this.conversionDateTo = conversionDateTo;
+    }
+
+    public BigDecimal getPartnerBuyAmountFrom() {
+        return partnerBuyAmountFrom;
+    }
+
+    public void setPartnerBuyAmountFrom(BigDecimal partnerBuyAmountFrom) {
+        this.partnerBuyAmountFrom = partnerBuyAmountFrom;
+    }
+
+    public BigDecimal getPartnerBuyAmountTo() {
+        return partnerBuyAmountTo;
+    }
+
+    public void setPartnerBuyAmountTo(BigDecimal partnerBuyAmountTo) {
+        this.partnerBuyAmountTo = partnerBuyAmountTo;
+    }
+
+    public BigDecimal getPartnerSellAmountFrom() {
+        return partnerSellAmountFrom;
+    }
+
+    public void setPartnerSellAmountFrom(BigDecimal partnerSellAmountFrom) {
+        this.partnerSellAmountFrom = partnerSellAmountFrom;
+    }
+
+    public BigDecimal getPartnerSellAmountTo() {
+        return partnerSellAmountTo;
+    }
+
+    public void setPartnerSellAmountTo(BigDecimal partnerSellAmountTo) {
+        this.partnerSellAmountTo = partnerSellAmountTo;
+    }
+
+    public BigDecimal getBuyAmountFrom() {
+        return buyAmountFrom;
+    }
+
+    public void setBuyAmountFrom(BigDecimal buyAmountFrom) {
+        this.buyAmountFrom = buyAmountFrom;
+    }
+
+    public BigDecimal getBuyAmountTo() {
+        return buyAmountTo;
+    }
+
+    public void setBuyAmountTo(BigDecimal buyAmountTo) {
+        this.buyAmountTo = buyAmountTo;
+    }
+
+    public BigDecimal getSellAmountFrom() {
+        return sellAmountFrom;
+    }
+
+    public void setSellAmountFrom(BigDecimal sellAmountFrom) {
+        this.sellAmountFrom = sellAmountFrom;
+    }
+
+    public BigDecimal getSellAmountTo() {
+        return sellAmountTo;
+    }
+
+    public void setSellAmountTo(BigDecimal sellAmountTo) {
+        this.sellAmountTo = sellAmountTo;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public Date getSettlementDateFrom() {
+        return settlementDateFrom;
+    }
+
+    public void setSettlementDateFrom(Date settlementDateFrom) {
+        this.settlementDateFrom = settlementDateFrom;
+    }
+
+    public Date getSettlementDateTo() {
+        return settlementDateTo;
+    }
+
+    public void setSettlementDateTo(Date settlementDateTo) {
+        this.settlementDateTo = settlementDateTo;
+    }
+
+    public String getBulkUploadId() {
+        return bulkUploadId;
+    }
+
+    public void setBulkUploadId(String bulkUploadId) {
+        this.bulkUploadId = bulkUploadId;
+    }
+
+    public BigDecimal getUnallocatedFunds() {
+        return unallocatedFunds;
+    }
+
+    public void setUnallocatedFunds(BigDecimal unallocatedFunds) {
+        this.unallocatedFunds = unallocatedFunds;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public Boolean getTermAgreement() {
+        return termAgreement;
+    }
+
+    public void setTermAgreement(Boolean termAgreement) {
+        this.termAgreement = termAgreement;
+    }
+
     @Override
     public String toString() {
-        return String.format("Conversion{id='%s', accountId='%s', creatorContactId='%s', shortReference='%s', settlementDate=%s, conversionDate=%s, status='%s', partnerStatus='%s', currencyPair='%s', buyCurrency='%s', sellCurrency='%s', fixedSide='%s', partnerBuyAmount=%s, partnerSellAmount=%s, clientBuyAmount=%s, clientSellAmount=%s, midMarketRate=%s, coreRate=%s, partnerRate=%s, clientRate=%s, depositRequired=%s, depositAmount=%s, depositCurrency='%s', depositStatus='%s', depositRequiredAt=%s, paymentIds=%s, createdAt=%s, updatedAt=%s, uniqueRequestId=%s}",
-                id, accountId, creatorContactId, shortReference, settlementDate, conversionDate, status, partnerStatus, currencyPair, buyCurrency, sellCurrency, fixedSide, partnerBuyAmount, partnerSellAmount, clientBuyAmount, clientSellAmount, midMarketRate, coreRate, partnerRate, clientRate, depositRequired, depositAmount, depositCurrency, depositStatus, depositRequiredAt, paymentIds, createdAt, updatedAt, uniqueRequestId);
-    }
+        return new JSONObject()
+                .appendField("id", id)
+                .appendField("accountId", accountId)
+                .appendField("creatorContactId", creatorContactId)
+                .appendField("shortReference", shortReference)
+                .appendField("settlementDate", settlementDate)
+                .appendField("conversionDate", conversionDate)
+                .appendField("status", status)
+                .appendField("partnerStatus", partnerStatus)
+                .appendField("currencyPair", currencyPair)
+                .appendField("buyCurrency", buyCurrency)
+                .appendField("sellCurrency", sellCurrency)
+                .appendField("fixedSide", fixedSide)
+                .appendField("partnerBuyAmount", partnerBuyAmount)
+                .appendField("partnerSellAmount", partnerSellAmount)
+                .appendField("clientBuyAmount", clientBuyAmount)
+                .appendField("clientSellAmount", clientSellAmount)
+                .appendField("midMarketRate", midMarketRate)
+                .appendField("coreRate", coreRate)
+                .appendField("partnerRate", partnerRate)
+                .appendField("clientRate", clientRate)
+                .appendField("depositRequired", depositRequired)
+                .appendField("depositAmount", depositAmount)
+                .appendField("depositCurrency", depositCurrency)
+                .appendField("depositStatus", depositStatus)
+                .appendField("depositRequiredAt", depositRequiredAt)
+                .appendField("unallocatedFunds", unallocatedFunds)
+                .appendField("paymentIds", paymentIds)
+                .appendField("uniqueRequestId", uniqueRequestId)
+                .appendField("createdAt", createdAt)
+                .appendField("updatedAt", updatedAt)
+                .toString();
+        }
 }

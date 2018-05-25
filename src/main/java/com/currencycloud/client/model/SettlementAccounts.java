@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import java.util.List;
 
-@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SettlementAccounts {
 
@@ -18,6 +18,6 @@ public class SettlementAccounts {
 
     @Override
     public String toString() {
-        return String.format("SettlementAccounts{settlementAccounts=%s}", settlementAccounts);
+        return String.format("{\"settlementAccounts\":%s}", settlementAccounts);
     }
 }
