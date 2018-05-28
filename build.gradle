@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'com.currencycloud.currencycloud-java'
-version = '101.2.3'
+version = '101.2.3-1'
 
 description = """Currencycloud"""
 
@@ -21,8 +21,8 @@ repositories {
 }
 dependencies {
     compile group: 'com.github.mmazi', name: 'rescu', version:'2.0.2'
-    compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
-    compile group: 'ch.qos.logback', name: 'logback-core', version:'1.2.3'
+    compileOnly group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
+    compileOnly group: 'ch.qos.logback', name: 'logback-core', version:'1.2.3'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version:'2.9.4'
     compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version:'2.9.4'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.9.4'
